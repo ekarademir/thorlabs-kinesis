@@ -1,0 +1,10 @@
+connection*
+settings*
+.cache
+*project
+*.pyc
+*.pyo
+*~
+*.class
+*.core
+build
