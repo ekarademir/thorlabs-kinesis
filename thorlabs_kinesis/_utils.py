@@ -1,19 +1,24 @@
 "Utility functions."
 from ctypes import (
     CDLL,
-    c_uint16,
-    c_uint32,
-    c_int32,
+    CFUNCTYPE,
+    c_ushort,
+    c_ulong,
 )
-from typing import (Any)
+from typing import (
+    Any,
+    List,
+)
 
-c_word = c_uint16
-c_dword = c_uint32
-c_long = c_int32
+c_word = c_ushort
+c_dword = c_ulong
 
 
-def bind(lib: CDLL, func: str, args: Any=None, returns: Any=None)->None:
+def bind(lib: CDLL, func: str,
+         argtypes: List[Any]=None, restype: Any=None) -> CFUNCTYPE:
     _func = getattr(lib, func, null_function)
+    _func.argtypes = argtypes
+    _func.restype = restype
 
     return _func
 
@@ -27,5 +32,4 @@ __all__ = [
     null_function,
     c_word,
     c_dword,
-    c_long,
 ]
