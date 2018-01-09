@@ -1,13 +1,18 @@
 "Bindings for Thorlabs Benchtop Stepper Motor DLL"
 from ctypes import (
+    Structure,
     cdll,
+    c_bool,
     c_short,
     c_int,
-    c_int16
+    c_int16,
+    c_char,
+    c_char_p,
 )
 
 from _utils import (
-    c_word
+    c_word,
+    c_dword,
 )
 
 lib = cdll.LoadLibrary("Thorlabs.MotionControl.Benchtop.StepperMotor.dll")
@@ -107,3 +112,17 @@ RotationalWrapping = c_int(0x02)  # < Angular Range 0 to 360 with wrap around
 Quickest = c_int(0x00)  # < Uses the shortest travel between two angles
 Forwards = c_int(0x01)  # < Only rotate in a forward direction
 Reverse = c_int(0x02)  # < Only rotate in a backward direction
+
+
+class TLI_DeviceInfo(Structure):
+    _fields_ = [("typeID", c_dword),
+                ("description", c_char_p),
+                ("serialNo", c_char_p),
+                ("PID", c_dword),
+                ("isKnownType", c_bool),
+                ("motorType", c_int),
+                ("isPiezoDevice", c_bool),
+                ("isLaser", c_bool),
+                ("isCustomType", c_bool),
+                ("isRack", c_bool),
+                ("maxChannels", c_short)]
