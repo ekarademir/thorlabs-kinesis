@@ -146,4 +146,12 @@ class TLI_DeviceInfo(Structure):
                 ("maxChannels", c_short)]
 
 
-
+TLI_BuildDeviceList = bind(lib, "TLI_BuildDeviceList", None, c_short)
+TLI_GetDeviceListSize = bind(lib, "TLI_GetDeviceListSize", None, c_short)
+# TLI_GetDeviceList  <- TODO: Implement SAFEARRAY first.
+# TLI_GetDeviceListByType  <- TODO: Implement SAFEARRAY first.
+# TLI_GetDeviceListByTypes  <- TODO: Implement SAFEARRAY first.
+TLI_GetDeviceListExt = bind(lib, "TLI_GetDeviceListExt", [POINTER(c_char), c_dword], c_short)
+TLI_GetDeviceListByTypeExt = bind(lib, "TLI_GetDeviceListByTypeExt", [POINTER(c_char), c_dword, c_int], c_short)
+TLI_GetDeviceListByTypesExt = bind(lib, "TLI_GetDeviceListByTypesExt", [POINTER(c_char), c_dword, POINTER(c_int), c_int], c_short)
+TLI_GetDeviceInfo = bind(lib, "TLI_GetDeviceInfo", [POINTER(c_char), POINTER(TLI_DeviceInfo)], c_short)
