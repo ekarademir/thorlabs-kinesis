@@ -178,6 +178,36 @@ class MOT_HomingParameters(Structure):
                 ("offsetDistance", c_uint)]
 
 
+class MOT_LimitSwitchParameters(Structure):
+    _fields_ = [("clockwiseHardwareLimit", MOT_LimitSwitchModes),
+                ("anticlockwiseHardwareLimit", MOT_LimitSwitchModes),
+                ("clockwisePosition", c_dword),
+                ("anticlockwisePosition", c_dword),
+                ("softLimitMode", MOT_LimitSwitchSWModes)]
+
+
+class MOT_PowerParameters(Structure):
+    _fields_ = [("restPercentage", c_word),
+                ("movePercentage", c_word)]
+
+
+class MOT_JoystickParameters(Structure):
+    _fields_ = [("lowGearMaxVelocity", c_dword),
+                ("highGearMaxVelocity", c_dword),
+                ("lowGearAcceleration", c_dword),
+                ("highGearAcceleration", c_dword),
+                ("directionSense", MOT_TravelDirection)]
+
+
+class MOT_PIDLoopEncoderParams(Structure):
+    _fields_ = [("loopMode", MOT_PID_LoopMode),
+                ("proportionalGain", c_int),
+                ("integralGain", c_int),
+                ("differentialGain", c_int),
+                ("PIDOutputLimit", c_int),
+                ("PIDTolerance", c_int)]
+
+
 TLI_BuildDeviceList = bind(lib, "TLI_BuildDeviceList", None, c_short)
 TLI_GetDeviceListSize = bind(lib, "TLI_GetDeviceListSize", None, c_short)
 # TLI_GetDeviceList  <- TODO: Implement SAFEARRAY first.
