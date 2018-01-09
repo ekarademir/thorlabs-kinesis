@@ -10,7 +10,7 @@ from ctypes import (
     c_char_p,
 )
 
-from _utils import (
+from thorlabs_kinesis._utils import (
     c_word,
     c_dword,
 )
@@ -126,3 +126,28 @@ class TLI_DeviceInfo(Structure):
                 ("isCustomType", c_bool),
                 ("isRack", c_bool),
                 ("maxChannels", c_short)]
+
+    def __init__(self,
+                 typeID: c_dword = c_dword(0),
+                 description: c_char_p = c_char_p(0),
+                 serialNo: c_char_p = c_char_p(0),
+                 PID: c_dword = c_dword(0),
+                 isKnownType: c_bool = c_bool(0),
+                 motorType: c_int = c_int(0),
+                 isPiezoDevice: c_bool = c_bool(0),
+                 isLaser: c_bool = c_bool(0),
+                 isCustomType: c_bool = c_bool(0),
+                 isRack: c_bool = c_bool(0),
+                 maxChannels: c_short = c_short(0),
+                 ):
+        self.typeID = typeID
+        self.description = description
+        self.serialNo = serialNo
+        self.PID = PID
+        self.isKnownType = isKnownType
+        self.motorType = motorType
+        self.isPiezoDevice = isPiezoDevice
+        self.isLaser = isLaser
+        self.isCustomType = isCustomType
+        self.isRack = isRack
+        self.maxChannels = maxChannels
