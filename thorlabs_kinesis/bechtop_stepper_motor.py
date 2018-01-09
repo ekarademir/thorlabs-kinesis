@@ -5,11 +5,11 @@ from ctypes import (
     c_bool,
     c_short,
     c_int,
+    c_uint,
     c_int16,
     c_char,
-    c_char_p,
+    c_byte,
     POINTER,
-    c_void_p
 )
 
 from thorlabs_kinesis._utils import (
@@ -134,8 +134,8 @@ MOT_MovementDirections = c_int
 
 class TLI_DeviceInfo(Structure):
     _fields_ = [("typeID", c_dword),
-                ("description", (c_char * 65)),
-                ("serialNo", (c_char * 9)),
+                ("description", (65 * c_char)),
+                ("serialNo", (9 * c_char)),
                 ("PID", c_dword),
                 ("isKnownType", c_bool),
                 ("motorType", MOT_MotorTypes),
@@ -144,6 +144,38 @@ class TLI_DeviceInfo(Structure):
                 ("isCustomType", c_bool),
                 ("isRack", c_bool),
                 ("maxChannels", c_short)]
+
+
+class TLI_HardwareInformation(Structure):
+    _fields_ = [("serialNumber", c_dword),
+                ("modelNumber", (8 * c_char)),
+                ("type", c_word),
+                ("firmwareVersion", c_dword),
+                ("notes", (48 * c_char)),
+                ("deviceDependantData", (12 * c_byte)),
+                ("hardwareVersion", c_word),
+                ("modificationState", c_word),
+                ("numChannels", c_short)]
+
+
+class MOT_VelocityParameters(Structure):
+    _fields_ = [("minVelocity", c_int),
+                ("acceleration", c_int),
+                ("maxVelocity", c_int)]
+
+
+class MOT_JogParameters(Structure):
+    _fields_ = [("mode", MOT_JogModes),
+                ("stepSize", c_uint),
+                ("velParams", MOT_VelocityParameters),
+                ("stopMode", MOT_StopModes)]
+
+
+class MOT_HomingParameters(Structure):
+    _fields_ = [("direction", MOT_TravelDirection),
+                ("limitSwitch", MOT_HomeLimitSwitchDirection),
+                ("velocity", c_uint),
+                ("offsetDistance", c_uint)]
 
 
 TLI_BuildDeviceList = bind(lib, "TLI_BuildDeviceList", None, c_short)
@@ -155,3 +187,12 @@ TLI_GetDeviceListExt = bind(lib, "TLI_GetDeviceListExt", [POINTER(c_char), c_dwo
 TLI_GetDeviceListByTypeExt = bind(lib, "TLI_GetDeviceListByTypeExt", [POINTER(c_char), c_dword, c_int], c_short)
 TLI_GetDeviceListByTypesExt = bind(lib, "TLI_GetDeviceListByTypesExt", [POINTER(c_char), c_dword, POINTER(c_int), c_int], c_short)
 TLI_GetDeviceInfo = bind(lib, "TLI_GetDeviceInfo", [POINTER(c_char), POINTER(TLI_DeviceInfo)], c_short)
+
+SBC_Open = bind(lib, "SBC_Open", [POINTER(c_char)], c_short)
+SBC_Close = bind(lib, "SBC_Close", [POINTER(c_char)], c_short)
+SBC_CheckConnection = bind(lib, "SBC_CheckConnection", [POINTER(c_char)], c_bool)
+SBC_IsChannelValid = bind(lib, "SBC_IsChannelValid", [POINTER(c_char), c_short], c_bool)
+SBC_MaxChannelCount = bind(lib, "SBC_MaxChannelCount", [POINTER(c_char), c_int])
+SBC_Identify = bind(lib, "SBC_Identify", [POINTER(c_char), c_short])
+SBC_GetHardwareInfo = bind(lib, "SBC_GetHardwareInfo", [POINTER(c_char), c_short, POINTER(c_char), c_dword, POINTER(c_word), POINTER(c_word), POINTER(c_char), c_dword, POINTER(c_dword), POINTER(c_word), POINTER(c_word)], c_short)
+SBC_GetHardwareInfoBlock = bind(lib, "SBC_GetHardwareInfoBlock", [POINTER(c_char), c_short, POINTER(TLI_HardwareInformation)], c_short)
