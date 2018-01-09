@@ -8,11 +8,14 @@ from ctypes import (
     c_int16,
     c_char,
     c_char_p,
+    POINTER,
+    c_void_p
 )
 
 from thorlabs_kinesis._utils import (
     c_word,
     c_dword,
+    bind
 )
 
 lib = cdll.LoadLibrary("Thorlabs.MotionControl.Benchtop.StepperMotor.dll")
@@ -131,38 +134,16 @@ MOT_MovementDirections = c_int
 
 class TLI_DeviceInfo(Structure):
     _fields_ = [("typeID", c_dword),
-                ("description", c_char_p),
-                ("serialNo", c_char_p),
+                ("description", (c_char * 65)),
+                ("serialNo", (c_char * 9)),
                 ("PID", c_dword),
                 ("isKnownType", c_bool),
-                ("motorType", c_int),
+                ("motorType", MOT_MotorTypes),
                 ("isPiezoDevice", c_bool),
                 ("isLaser", c_bool),
                 ("isCustomType", c_bool),
                 ("isRack", c_bool),
                 ("maxChannels", c_short)]
 
-    def __init__(self,
-                 typeID: c_dword = c_dword(0),
-                 description: c_char_p = c_char_p(0),
-                 serialNo: c_char_p = c_char_p(0),
-                 PID: c_dword = c_dword(0),
-                 isKnownType: c_bool = c_bool(0),
-                 motorType: c_int = c_int(0),
-                 isPiezoDevice: c_bool = c_bool(0),
-                 isLaser: c_bool = c_bool(0),
-                 isCustomType: c_bool = c_bool(0),
-                 isRack: c_bool = c_bool(0),
-                 maxChannels: c_short = c_short(0),
-                 ):
-        self.typeID = typeID
-        self.description = description
-        self.serialNo = serialNo
-        self.PID = PID
-        self.isKnownType = isKnownType
-        self.motorType = motorType
-        self.isPiezoDevice = isPiezoDevice
-        self.isLaser = isLaser
-        self.isCustomType = isCustomType
-        self.isRack = isRack
-        self.maxChannels = maxChannels
+
+
