@@ -1,4 +1,5 @@
 "Bindings for Thorlabs Benchtop Stepper Motor DLL"
+# flake8: noqa
 from ctypes import (
     Structure,
     cdll,
