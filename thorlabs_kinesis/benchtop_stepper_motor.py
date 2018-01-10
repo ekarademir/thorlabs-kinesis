@@ -7,9 +7,12 @@ from ctypes import (
     c_int,
     c_uint,
     c_int16,
+    c_int32,
     c_char,
     c_byte,
     c_long,
+    c_float,
+    c_double,
     POINTER,
     CFUNCTYPE,
 )
@@ -212,9 +215,9 @@ class MOT_PIDLoopEncoderParams(Structure):
 
 TLI_BuildDeviceList = bind(lib, "TLI_BuildDeviceList", None, c_short)
 TLI_GetDeviceListSize = bind(lib, "TLI_GetDeviceListSize", None, c_short)
-# TLI_GetDeviceList  <- TODO: Implement SAFEARRAY first.
-# TLI_GetDeviceListByType  <- TODO: Implement SAFEARRAY first.
-# TLI_GetDeviceListByTypes  <- TODO: Implement SAFEARRAY first.
+# TLI_GetDeviceList  <- TODO: Implement SAFEARRAY first. BENCHTOPSTEPPERMOTOR_API short __cdecl TLI_GetDeviceList(SAFEARRAY** stringsReceiver);
+# TLI_GetDeviceListByType  <- TODO: Implement SAFEARRAY first. BENCHTOPSTEPPERMOTOR_API short __cdecl TLI_GetDeviceListByType(SAFEARRAY** stringsReceiver, int typeID);
+# TLI_GetDeviceListByTypes  <- TODO: Implement SAFEARRAY first. BENCHTOPSTEPPERMOTOR_API short __cdecl TLI_GetDeviceListByTypes(SAFEARRAY** stringsReceiver, int * typeIDs, int length);
 TLI_GetDeviceListExt = bind(lib, "TLI_GetDeviceListExt", [POINTER(c_char), c_dword], c_short)
 TLI_GetDeviceListByTypeExt = bind(lib, "TLI_GetDeviceListByTypeExt", [POINTER(c_char), c_dword, c_int], c_short)
 TLI_GetDeviceListByTypesExt = bind(lib, "TLI_GetDeviceListByTypesExt", [POINTER(c_char), c_dword, POINTER(c_int), c_int], c_short)
@@ -288,4 +291,70 @@ SBC_SetMoveAbsolutePosition = bind(lib, "SBC_SetMoveAbsolutePosition", [POINTER(
 SBC_RequestMoveAbsolutePosition = bind(lib, "SBC_RequestMoveAbsolutePosition", [POINTER(c_char), c_short], c_short)
 SBC_GetMoveAbsolutePosition = bind(lib, "SBC_GetMoveAbsolutePosition", [POINTER(c_char), c_short], c_int)
 SBC_MoveAbsolute = bind(lib, "SBC_MoveAbsolute", [POINTER(c_char), c_short], c_short)
-
+SBC_SetMoveRelativeDistance = bind(lib, "SBC_SetMoveRelativeDistance", [POINTER(c_char), c_short, c_int], c_short)
+SBC_RequestMoveRelativeDistance = bind(lib, "SBC_RequestMoveRelativeDistance", [POINTER(c_char), c_short], c_short)
+SBC_GetMoveRelativeDistance = bind(lib, "SBC_GetMoveRelativeDistance", [POINTER(c_char), c_short], c_int)
+SBC_MoveRelativeDistance = bind(lib, "SBC_MoveRelativeDistance", [POINTER(c_char), c_short], c_short)
+SBC_GetHomingParamsBlock = bind(lib, "SBC_GetHomingParamsBlock", [POINTER(c_char), c_short, POINTER(MOT_HomingParameters)], c_short)
+SBC_SetHomingParamsBlock = bind(lib, "SBC_SetHomingParamsBlock", [POINTER(c_char), c_short, POINTER(MOT_HomingParameters)], c_short)
+SBC_GetJogParamsBlock = bind(lib, "SBC_GetJogParamsBlock", [POINTER(c_char), c_short, POINTER(MOT_JogParameters)], c_short)
+SBC_SetJogParamsBlock = bind(lib, "SBC_SetJogParamsBlock", [POINTER(c_char), c_short, POINTER(MOT_JogParameters)], c_short)
+SBC_GetLimitSwitchParamsBlock = bind(lib, "SBC_GetLimitSwitchParamsBlock", [POINTER(c_char), c_short, POINTER(MOT_LimitSwitchParameters)], c_short)
+SBC_SetLimitSwitchParamsBlock = bind(lib, "SBC_SetLimitSwitchParamsBlock", [POINTER(c_char), c_short, POINTER(MOT_LimitSwitchParameters)], c_short)
+SBC_RequestTriggerSwitches = bind(lib, "SBC_RequestTriggerSwitches", [POINTER(c_char), c_short], c_short)
+SBC_GetTriggerSwitches = bind(lib, "SBC_GetTriggerSwitches", [POINTER(c_char), c_short], c_byte)
+SBC_SetTriggerSwitches = bind(lib, "SBC_SetTriggerSwitches", [POINTER(c_char), c_short, c_byte], c_short)
+SBC_RequestDigitalOutputs = bind(lib, "SBC_RequestTriggerSwitches", [POINTER(c_char), c_short], c_short)
+SBC_GetDigitalOutputs = bind(lib, "SBC_GetDigitalOutputs", [POINTER(c_char), c_short], c_byte)
+SBC_SetDigitalOutputs = bind(lib, "SBC_SetDigitalOutputs", [POINTER(c_char), c_short, c_byte], c_short)
+SBC_RequestRackDigitalOutputs = bind(lib, "SBC_RequestRackDigitalOutputs", [POINTER(c_char)], c_short)
+SBC_GetRackDigitalOutputs = bind(lib, "SBC_GetRackDigitalOutputs", [POINTER(c_char)], c_byte)
+SBC_SetRackDigitalOutputs = bind(lib, "SBC_SetRackDigitalOutputs", [POINTER(c_char), c_byte], c_short)
+SBC_RequestRackStatusBits = bind(lib, "SBC_RequestRackStatusBits", [POINTER(c_char)], c_short)
+SBC_GetRackStatusBits = bind(lib, "SBC_GetRackStatusBits", [POINTER(c_char)], c_dword)
+SBC_RequestInputVoltage = bind(lib, "SBC_RequestInputVoltage", [POINTER(c_char), c_short], c_short)
+SBC_GetInputVoltage = bind(lib, "SBC_GetInputVoltage", [POINTER(c_char), c_short], c_word)
+SBC_RequestPowerParams = bind(lib, "SBC_RequestPowerParams", [POINTER(c_char), c_short], c_short)
+SBC_GetPowerParams = bind(lib, "SBC_GetPowerParams", [POINTER(c_char), c_short, POINTER(MOT_PowerParameters)], c_short)
+SBC_SetPowerParams = bind(lib, "SBC_SetPowerParams", [POINTER(c_char), c_short, POINTER(MOT_PowerParameters)], c_short)
+SBC_RequestBowIndex = bind(lib, "SBC_RequestBowIndex", [POINTER(c_char), c_short], c_short)
+SBC_GetBowIndex = bind(lib, "SBC_GetBowIndex", [POINTER(c_char), c_short], c_short)
+SBC_SetBowIndex = bind(lib, "SBC_SetBowIndex", [POINTER(c_char), c_short, c_short], c_short)
+SBC_UsesPIDLoopEncoding = bind(lib, "SBC_UsesPIDLoopEncoding", [POINTER(c_char), c_short], c_bool)
+SBC_SetPIDLoopEncoderParams = bind(lib, "SBC_SetPIDLoopEncoderParams", [POINTER(c_char), c_short, POINTER(MOT_PIDLoopEncoderParams)], c_short)
+SBC_SetPIDLoopEncoderCoeff = bind(lib, "SBC_SetPIDLoopEncoderCoeff", [POINTER(c_char), c_short, c_double], c_short)
+SBC_RequestPIDLoopEncoderParams = bind(lib, "SBC_RequestPIDLoopEncoderParams", [POINTER(c_char), c_short], c_short)
+SBC_GetPIDLoopEncoderParams = bind(lib, "SBC_GetPIDLoopEncoderParams", [POINTER(c_char), c_short, POINTER(MOT_PIDLoopEncoderParams)], c_short)
+SBC_GetPIDLoopEncoderCoeff = bind(lib, "SBC_GetPIDLoopEncoderCoeff", [POINTER(c_char), c_short], c_double)
+SBC_RequestJoystickParams = bind(lib, "SBC_RequestJoystickParams", [POINTER(c_char), c_short], c_short)
+SBC_GetJoystickParams = bind(lib, "SBC_GetJoystickParams", [POINTER(c_char), c_short, POINTER(MOT_JoystickParameters)], c_short)
+SBC_SetJoystickParams = bind(lib, "SBC_SetJoystickParams", [POINTER(c_char), c_short, POINTER(MOT_JoystickParameters)], c_short)
+SBC_SuspendMoveMessages = bind(lib, "SBC_SuspendMoveMessages", [POINTER(c_char), c_short], c_short)
+SBC_ResumeMoveMessages = bind(lib, "SBC_ResumeMoveMessages", [POINTER(c_char), c_short], c_short)
+SBC_RequestPosition = bind(lib, "SBC_RequestPosition", [POINTER(c_char), c_short], c_short)
+SBC_RequestStatusBits = bind(lib, "SBC_RequestStatusBits", [POINTER(c_char), c_short], c_short)
+SBC_GetStatusBits = bind(lib, "SBC_GetStatusBits", [POINTER(c_char), c_short], c_dword)
+SBC_StartPolling = bind(lib, "SBC_StartPolling", [POINTER(c_char), c_short, c_int], c_bool)
+SBC_PollingDuration = bind(lib, "SBC_PollingDuration", [POINTER(c_char), c_short], c_long)
+SBC_StopPolling = bind(lib, "SBC_StopPolling", [POINTER(c_char), c_short, c_int])
+# SBC_TimeSinceLastMsgReceived <- TODO: BENCHTOPSTEPPERMOTOR_API bool __cdecl SBC_TimeSinceLastMsgReceived(char const * serialNo, short channel, __int64 &lastUpdateTimeMS );
+SBC_EnableLastMsgTimer = bind(lib, "SBC_EnableLastMsgTimer", [POINTER(c_char), c_short, c_bool, c_int32])
+SBC_HasLastMsgTimerOverrun = bind(lib, "SBC_HasLastMsgTimerOverrun", [POINTER(c_char), c_short], c_bool)
+SBC_RequestSettings = bind(lib, "SBC_RequestSettings", [POINTER(c_char), c_short], c_short)
+SBC_GetStageAxisMinPos = bind(lib, "SBC_GetStageAxisMinPos", [POINTER(c_char), c_short], c_int)
+SBC_GetStageAxisMaxPos = bind(lib, "SBC_GetStageAxisMaxPos", [POINTER(c_char), c_short], c_int)
+SBC_SetStageAxisLimits = bind(lib, "SBC_SetStageAxisLimits", [POINTER(c_char), c_short, c_int, c_int], c_short)
+SBC_SetMotorTravelMode = bind(lib, "SBC_SetMotorTravelMode", [POINTER(c_char), c_short, MOT_TravelModes], c_short)
+SBC_GetMotorTravelMode = bind(lib, "SBC_GetMotorTravelMode", [POINTER(c_char), c_short], MOT_TravelModes)
+SBC_SetMotorParams = bind(lib, "SBC_SetMotorParams", [POINTER(c_char), c_short, c_long, c_long, c_float], c_short)
+SBC_GetMotorParams = bind(lib, "SBC_GetMotorParams", [POINTER(c_char), c_short, POINTER(c_long), POINTER(c_long), POINTER(c_float)], c_short)
+SBC_SetMotorParamsExt = bind(lib, "SBC_SetMotorParamsExt", [POINTER(c_char), c_short, c_double, c_double, c_double], c_short)
+SBC_GetMotorParamsExt = bind(lib, "SBC_GetMotorParamsExt", [POINTER(c_char), c_short, POINTER(c_double), POINTER(c_double), POINTER(c_double)], c_short)
+SBC_SetMotorVelocityLimits = bind(lib, "SBC_SetMotorVelocityLimits", [POINTER(c_char), c_short, c_double, c_double], c_short)
+SBC_GetMotorVelocityLimits = bind(lib, "SBC_GetMotorVelocityLimits", [POINTER(c_char), c_short, POINTER(c_double), POINTER(c_double)], c_short)
+SBC_ResetRotationModes = bind(lib, "SBC_ResetRotationModes", [POINTER(c_char), c_short], c_short)
+SBC_SetRotationModes = bind(lib, "SBC_SetRotationModes", [POINTER(c_char), c_short, MOT_MovementModes, MOT_MovementDirections], c_short)
+SBC_SetMotorTravelLimits = bind(lib, "SBC_SetMotorTravelLimits", [POINTER(c_char), c_short, c_double, c_double], c_short)
+SBC_GetMotorTravelLimits = bind(lib, "SBC_GetMotorTravelLimits", [POINTER(c_char), c_short, POINTER(c_double), POINTER(c_double)], c_short)
+SBC_GetRealValueFromDeviceUnit = bind(lib, "SBC_GetRealValueFromDeviceUnit", [POINTER(c_char), c_short, c_int, POINTER(c_double), c_int], c_short)
+SBC_GetDeviceUnitFromRealValue = bind(lib, "SBC_GetDeviceUnitFromRealValue", [POINTER(c_char), c_short, c_double, POINTER(c_int), c_int], c_short)
