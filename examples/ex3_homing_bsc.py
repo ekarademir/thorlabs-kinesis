@@ -1,9 +1,8 @@
-"Sample code to get information about connected controllers."
+"Sample code for homing."
 from ctypes import (
     c_short,
     c_int,
     c_char_p,
-    byref,
 )
 from time import sleep
 

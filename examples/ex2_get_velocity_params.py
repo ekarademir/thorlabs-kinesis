@@ -1,11 +1,10 @@
-"Sample code to get information about connected controllers."
+"Sample code for getting some parameters."
 from ctypes import (
     c_short,
     c_int,
     c_char_p,
     byref,
 )
-from time import sleep
 
 from thorlabs_kinesis import benchtop_stepper_motor as bsm
 
@@ -29,17 +28,6 @@ if __name__ == "__main__":
                              byref(max_velocity))
         print("Acc: ", acceleration)
         print("Max Vel:", max_velocity)
-        # print(bsm.SBC_Home(serial_no, channel))
-        # if bsm.SBC_Home(serial_no, channel) == 0:
-        #     while True:
-        #         current_pos = int(bsm.SBC_GetPosition(serial_no, channel))
-        #         if current_pos == 0:
-        #             print("At home.")
-        #             break
-        #         else:
-        #             print(f"Homing...{current_pos}")
-
-        #         sleep(0.2)
 
         bsm.SBC_StopPolling(serial_no, channel)
         bsm.SBC_Close(serial_no)
