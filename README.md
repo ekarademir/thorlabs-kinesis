@@ -12,3 +12,7 @@ So examples are tested with those controllers on Windows 7 with Python 3.6.
 
 Binding methodology is inspired by
 [PySDL2](https://github.com/marcusva/py-sdl2) project.
+
+Code structure in the original DLLs is transferred 1-1, even though it could
+have benefited from some refactoring. This makes easier to map examples given in
+Thorlabs' documentation.
