@@ -16,3 +16,10 @@ Binding methodology is inspired by
 Code structure in the original DLLs is transferred 1-1, even though it could
 have benefited from some refactoring. This makes easier to map examples given in
 Thorlabs' documentation.
+
+## Using
+
+At it's current stage this module only provides bindings. So, basic mapping of
+C code provided with the Kinesis documentation should be enough to use the
+module. **However** you have to make sure that DLLs are in the PATH. For that,
+you can add the Kinesis folder to PATH.
