@@ -22,6 +22,7 @@ if __name__ == "__main__":
             print("Model No: ", hw_info.modelNumber)
             print("Firmware Version: ", hw_info.firmwareVersion)
             print("Number of  Channels: ", hw_info.numChannels)
+            print("Type: ", hw_info.type)
         else:
             print(f"Error getting HW Info Block. Error Code: {err}")
 

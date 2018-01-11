@@ -14,20 +14,22 @@ if __name__ == "__main__":
     channel = c_short(1)
     milliseconds = c_int(100)
 
-    if bsm.SBC_Open(serial_no) == 0:
-        bsm.SBC_StartPolling(serial_no, channel, milliseconds)
-        bsm.SBC_ClearMessageQueue(serial_no, channel)
+    if bsm.TLI_BuildDeviceList() == 0:
+        if bsm.SBC_Open(serial_no) == 0:
+            bsm.SBC_StartPolling(serial_no, channel, milliseconds)
+            bsm.SBC_EnableChannel(serial_no, channel)
+            bsm.SBC_ClearMessageQueue(serial_no, channel)
 
-        if bsm.SBC_Home(serial_no, channel) == 0:
-            while True:
-                current_pos = int(bsm.SBC_GetPosition(serial_no, channel))
-                if current_pos == 0:
-                    print("At home.")
-                    break
-                else:
-                    print(f"Homing...{current_pos}")
+            if bsm.SBC_Home(serial_no, channel) == 0:
+                while True:
+                    current_pos = int(bsm.SBC_GetPosition(serial_no, channel))
+                    if current_pos == 0:
+                        print("At home.")
+                        break
+                    else:
+                        print(f"Homing...{current_pos}")
 
-                sleep(0.2)
+                    sleep(0.2)
 
-        bsm.SBC_StopPolling(serial_no, channel)
-        bsm.SBC_Close(serial_no)
+            bsm.SBC_StopPolling(serial_no, channel)
+            bsm.SBC_Close(serial_no)
