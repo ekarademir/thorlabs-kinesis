@@ -4,6 +4,7 @@ from ctypes import (
 )
 
 from thorlabs_kinesis import benchtop_stepper_motor as bsm
+from thorlabs_kinesis.ext import expand_device
 
 
 if __name__ == "__main__":
@@ -19,4 +20,5 @@ if __name__ == "__main__":
 
         for i, serial_no in enumerate(serial_nos):
             if len(serial_no) > 0:
-                print(f"{i + 1}. {serial_no}")
+                dev = expand_device(serial_no)
+                print(f"{i + 1}. {serial_no} - {dev.type}")
