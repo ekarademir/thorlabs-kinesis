@@ -1,8 +1,6 @@
-"Sample code to get hardware information."
+"Sample code to receive list of devices."
 from ctypes import (
-    c_short,
     c_char_p,
-    byref,
 )
 
 from thorlabs_kinesis import benchtop_stepper_motor as bsm
