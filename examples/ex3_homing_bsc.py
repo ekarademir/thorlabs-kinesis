@@ -16,11 +16,14 @@ if __name__ == "__main__":
 
     if bsm.TLI_BuildDeviceList() == 0:
         if bsm.SBC_Open(serial_no) == 0:
+            sleep(1.0)
             bsm.SBC_StartPolling(serial_no, channel, milliseconds)
-            bsm.SBC_EnableChannel(serial_no, channel)
             bsm.SBC_ClearMessageQueue(serial_no, channel)
+            sleep(1.0)
 
-            if bsm.SBC_Home(serial_no, channel) == 0:
+            err = bsm.SBC_Home(serial_no, channel)
+            sleep(1.0)
+            if err == 0:
                 while True:
                     current_pos = int(bsm.SBC_GetPosition(serial_no, channel))
                     if current_pos == 0:
@@ -29,7 +32,13 @@ if __name__ == "__main__":
                     else:
                         print(f"Homing...{current_pos}")
 
-                    sleep(0.2)
+                    sleep(1.0)
+            else:
+                print(f"Can't home. Err: {err}")
 
             bsm.SBC_StopPolling(serial_no, channel)
             bsm.SBC_Close(serial_no)
+        else:
+            print("Can't open")
+    else:
+        print("Can't build device list.")

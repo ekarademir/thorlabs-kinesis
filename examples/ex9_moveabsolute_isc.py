@@ -1,6 +1,5 @@
-"Sample code for homing."
+"Sample code for absolute movement."
 from ctypes import (
-    c_short,
     c_int,
     c_char_p,
 )
@@ -20,7 +19,7 @@ if __name__ == "__main__":
             print("Clearing message queue ", ism.ISC_ClearMessageQueue(serial_no))
             sleep(0.2)
 
-            move_to = 0
+            move_to = 1000000
             print("Setting Absolute Position ", ism.ISC_SetMoveAbsolutePosition(serial_no, c_int(move_to)))
             sleep(0.2)
 
