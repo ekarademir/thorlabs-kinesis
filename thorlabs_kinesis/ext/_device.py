@@ -61,6 +61,51 @@ def expand_device(serial_no: str) -> Device:
     return serial_prefix[int(serial_no[:2])]
 
 
+def device_to_real_units(motor_type: str,
+                         dev: int, dimension: str="position") -> float:
+    """Converts given device units [steps] to real units [mm]. Dimension can be
+    'position', 'velocity', or 'acceleration'.
+
+    >>> device_to_real_units("HS DRV001 8mm", 546100)
+    1.0
+
+    >>> device_to_real_units("HS DRV001 8mm", 1.0, "position")
+    1.8311664530305805e-06
+
+    >>> device_to_real_units("HS DRV001 8mm", 1.0, "velocity")
+    3.410605140259431e-08
+
+    >>> device_to_real_units("HS DRV001 8mm", 1.0, "acceleration")
+    0.00016644474034620507
+
+    >>> device_to_real_units("HS DRV001 8mm", 1.0, "Acceleration")
+    Traceback (most recent call last):
+        ...
+    TypeError: Can't convert given dimension.
+
+    >>> device_to_real_units("HS DRV001 8mm", 1.0, "Non existent")
+    Traceback (most recent call last):
+        ...
+    TypeError: Can't convert given dimension.
+
+    >>> device_to_real_units("Non existent", 1.0, "acceleration")
+    Traceback (most recent call last):
+        ...
+    ValueError: Can't find given motor encoder.
+    """
+    motor_enc = motor_encoder_lib.get(motor_type, None)
+
+    if motor_enc is None:
+        raise ValueError("Can't find given motor encoder.")
+
+    scale = getattr(motor_enc, dimension, None)
+
+    if scale is None:
+        raise TypeError("Can't convert given dimension.")
+
+    return dev / scale
+
+
 def real_to_device_units(motor_type: str,
                          real: float, dimension: str="position") -> int:
     """Converts given real units [mm] to encoder steps. Dimension can be
