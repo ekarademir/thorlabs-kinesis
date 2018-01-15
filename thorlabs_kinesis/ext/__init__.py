@@ -4,6 +4,6 @@ from thorlabs_kinesis.ext._device import (
 )
 
 __all__ = [
-    serial_prefix,
-    expand_device,
+    "serial_prefix",
+    "expand_device",
 ]
