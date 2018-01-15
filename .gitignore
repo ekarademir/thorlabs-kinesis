@@ -8,3 +8,4 @@ settings*
 *.class
 *.core
 build
+*mypy*/**
