@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 import thorlabs_kinesis as thk
 
@@ -9,5 +9,5 @@ setup(
     author="Ertugrul Karademir",
     euthor_email="ekarademir@gmail.com",
     url="https://github.com/ekarademir/thorlabs-kinesis",
-    packages=["thorlabs-kinesis", "thorlabs-kinesis.ext"]
+    packages=find_packages()
 )
