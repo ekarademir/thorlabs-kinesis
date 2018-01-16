@@ -258,7 +258,9 @@ ISC_RequestHomingParams = bind(lib, "ISC_RequestHomingParams", [POINTER(c_char)]
 ISC_GetHomingVelocity = bind(lib, "ISC_GetHomingVelocity", [POINTER(c_char)], c_uint)
 ISC_SetHomingVelocity = bind(lib, "ISC_SetHomingVelocity", [POINTER(c_char), c_uint], c_short)
 ISC_MoveRelative = bind(lib, "ISC_MoveRelative", [POINTER(c_char), c_int], c_short)
-SCC_RequestJogParams = bind(lib, "SCC_RequestJogParams", [POINTER(c_char)], c_short)
+# This is a typo in given header file. Typo is also persistent in CHM file. Correct one follows.
+# SCC_RequestJogParams = bind(lib, "SCC_RequestJogParams", [POINTER(c_char)], c_short)
+ISC_RequestJogParams = bind(lib, "ISC_RequestJogParams", [POINTER(c_char)], c_short)
 ISC_GetJogMode = bind(lib, "ISC_GetJogMode", [POINTER(c_char), POINTER(MOT_JogModes), POINTER(MOT_StopModes)], c_short)
 ISC_SetJogMode = bind(lib, "ISC_SetJogMode", [POINTER(c_char), MOT_JogModes, MOT_StopModes], c_short)
 ISC_GetJogStepSize = bind(lib, "ISC_GetJogStepSize", [POINTER(c_char)], c_uint)
