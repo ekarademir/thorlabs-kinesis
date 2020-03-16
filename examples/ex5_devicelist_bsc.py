@@ -2,7 +2,10 @@
 from ctypes import (
     c_char_p,
 )
-
+import sys 
+for path in ["C:\\Users\\Mikroskop Admin\\Documents\\transfersystem_i2a\\thorlabs-kinesis"]:
+    if path not in sys.path:
+        sys.path.append(path)
 from thorlabs_kinesis import benchtop_stepper_motor as bsm
 from thorlabs_kinesis.ext import expand_device
 

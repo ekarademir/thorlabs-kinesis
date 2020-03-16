@@ -3,13 +3,17 @@ from ctypes import (
     c_int,
     c_char_p,
 )
+import sys 
+for path in ["C:\\Users\\Mikroskop Admin\\Documents\\transfersystem_i2a\\thorlabs-kinesis"]:
+    if path not in sys.path:
+        sys.path.append(path)
 from time import sleep
 
 from thorlabs_kinesis import integrated_stepper_motors as ism
 
 
 if __name__ == "__main__":
-    serial_no = c_char_p(bytes("45875474", "utf-8"))
+    serial_no = c_char_p(bytes("27254142", "utf-8"))
     milliseconds = c_int(100)
 
     if ism.TLI_BuildDeviceList() == 0:
