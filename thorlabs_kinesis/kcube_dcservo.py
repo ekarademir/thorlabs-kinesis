@@ -27,6 +27,8 @@ from thorlabs_kinesis._utils import (
 
 lib = cdll.LoadLibrary("Thorlabs.MotionControl.KCube.DCServo.dll")
 CC_Close = bind(lib, "CC_Close", [POINTER(c_char)], None)
+CC_ClearMessageQueue = bind(lib, "CC_ClearMessageQueue", [POINTER(c_char)], None)
+CC_StartPolling = bind(lib, "CC_StartPolling", [POINTER(c_char), c_int], None)
 CC_CanHome = bind(lib, "CC_Open", [POINTER(c_char)], c_bool)
 CC_Open = bind(lib, "CC_Open", [POINTER(c_char)], c_short)
 CC_GetJogVelParams = bind(lib, "CC_GetJogVelParams", [POINTER(c_char)], c_short)
