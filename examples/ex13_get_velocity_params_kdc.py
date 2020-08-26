@@ -5,9 +5,8 @@ from ctypes import (
     byref,
 )
 import sys 
-for path in ["C:\\Users\\Mikroskop Admin\\Documents\\transfersystem_i2a\\thorlabs-kinesis"]:
-    if path not in sys.path:
-        sys.path.append(path)
+
+
 from thorlabs_kinesis import KCube_DC_Servo as kdc
 
 

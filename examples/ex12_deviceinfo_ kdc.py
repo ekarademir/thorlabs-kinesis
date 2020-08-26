@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 16 14:27:37 2020
-
-@author: David Tebbe
-"""
-
 "Sample code to get information about connected controllers."
 from ctypes import (
     c_char_p,
@@ -12,10 +5,6 @@ from ctypes import (
 )
 
 import sys 
-for path in ["C:\\Users\\Mikroskop Admin\\Documents\\transfersystem_i2a\\thorlabs-kinesis"]:
-    #print(sys.path)
-    if path not in sys.path:
-        sys.path.append(path)
 
 from thorlabs_kinesis import KCube_DC_Servo as kdc
 
