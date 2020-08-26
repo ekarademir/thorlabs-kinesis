@@ -7,7 +7,8 @@ Kinesis Motion Control Software can be found on
 
 The version I'm using to map the libraries is **1.14.4.0 64 Bit**
 
-This project emerged as a need to use it with **Thorlabs KCube DC Servo**.
+This project emerged as a need to use it with Thorlabs BSC201, BSC203, and LTS150. So examples are tested with those controllers on Windows 7 with Python 3.6.
+Part of this project emerged as a need to use it with **Thorlabs KCube DC Servo**.
 So examples are tested with those controllers on Windows 10 with Python 3.6.
 
 Binding methodology is inspired by
