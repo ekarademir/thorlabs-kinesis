@@ -5,15 +5,12 @@ from ctypes import (
     c_char_p,
 )
 from time import sleep
-import sys 
-for path in ["C:\\Users\\Mikroskop Admin\\Documents\\transfersystem_i2a\\thorlabs-kinesis"]:
-    if path not in sys.path:
-        sys.path.append(path)
+
 from thorlabs_kinesis import benchtop_stepper_motor as bsm
 
 
 if __name__ == "__main__":
-    serial_no = c_char_p(bytes("27254142", "utf-8"))
+    serial_no = c_char_p(bytes("40875459", "utf-8"))
     channel = c_short(1)
     milliseconds = c_int(100)
 

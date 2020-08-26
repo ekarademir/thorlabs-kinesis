@@ -4,10 +4,7 @@ from ctypes import (
     c_char_p,
     byref,
 )
-import sys 
-for path in ["C:\\Users\\Mikroskop Admin\\Documents\\transfersystem_i2a\\thorlabs-kinesis"]:
-    if path not in sys.path:
-        sys.path.append(path)
+
 from thorlabs_kinesis import integrated_stepper_motors as ism
 if __name__ == "__main__":
     serial_no = c_char_p(bytes("45875474", "utf-8"))
