@@ -11,7 +11,7 @@ from thorlabs_kinesis._utils import (
     bind
 )
 
-lib = cdll.LoadLibrary("C:\\Program Files\\Thorlabs\\Scientific Imaging\\ThorCam\\uc480_64.dll")
+lib = cdll.LoadLibrary("uc480_64.dll")
 
 class UC480_CAMERA_INFO(Structure):
     _fields_ = [("dwCameraID", c_dword),
