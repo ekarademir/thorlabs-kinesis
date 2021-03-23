@@ -25,13 +25,22 @@ class UC480_CAMERA_INFO(Structure):
 
 class UC480_CAMERA_LIST(Structure):
     _fields_ = [("dwCount", c_int),
-                ("uci", UC480_CAMERA_INFO * 1)]
+                ("uci", UC480_CAMERA_INFO)]
+
+class CAMINFO(Structure):
+    _fields_ = [("SerNo", c_char * 12),
+                ("ID", c_char * 20),
+                ("Version", c_char * 10),
+                ("Date", c_char * 12),
+                ("Select", c_char),
+                ("Type", c_char)]
 
 class IS_2D(Structure):
     _fields_ = [('s32X', c_int), ('s32Y', c_int)]
 
 GetNumberOfCameras = bind(lib, "is_GetNumberOfCameras", [POINTER(c_int)], c_int)
-GetCameraList = bind(lib, "is_GetCameraList", [POINTER(UC480_CAMERA_LIST)], c_int)
+GetCameraList = bind(lib, "is_GetCameraList", [POINTER(c_byte * 16)], c_int)
+GetCameraInfo = bind(lib, "is_GetCameraInfo", [c_int, POINTER(CAMINFO)], c_int)
 
 InitCamera = bind(lib, "is_InitCamera", [POINTER(c_int)], c_int)
 SetDisplayMode = bind(lib, "is_SetDisplayMode", [POINTER(c_int), c_int], c_int)
