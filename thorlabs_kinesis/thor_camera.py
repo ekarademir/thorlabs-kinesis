@@ -13,6 +13,15 @@ from thorlabs_kinesis._utils import (
 
 lib = cdll.LoadLibrary("uc480_64.dll")
 
+IS_WAIT = 0x0001    
+IS_DONT_WAIT = 0x0000  
+IS_GET_EXTERNALTRIGGER = 0x8000  
+IS_SET_TRIGGER_CONTINUOUS = 0x1000    
+IS_SET_TRIGGER_OFF = 0x0000    
+IS_SET_TRIGGER_HI_LO = (IS_SET_TRIGGER_CONTINUOUS | 0x0001)
+IS_SET_TRIGGER_LO_HI = (IS_SET_TRIGGER_CONTINUOUS | 0x0002)
+IS_SET_TRIGGER_SOFTWARE = (IS_SET_TRIGGER_CONTINUOUS | 0x0008)
+
 class UC480_CAMERA_INFO(Structure):
     _fields_ = [("dwCameraID", c_dword),
                 ("dwDeviceID", c_dword),
@@ -25,7 +34,7 @@ class UC480_CAMERA_INFO(Structure):
 
 class UC480_CAMERA_LIST(Structure):
     _fields_ = [("dwCount", c_int),
-                ("uci", UC480_CAMERA_INFO)]
+                ("uci", UC480_CAMERA_INFO * 2)]
 
 class CAMINFO(Structure):
     _fields_ = [("SerNo", c_char * 12),
@@ -39,7 +48,7 @@ class IS_2D(Structure):
     _fields_ = [('s32X', c_int), ('s32Y', c_int)]
 
 GetNumberOfCameras = bind(lib, "is_GetNumberOfCameras", [POINTER(c_int)], c_int)
-GetCameraList = bind(lib, "is_GetCameraList", [POINTER(c_byte * 16)], c_int)
+GetCameraList = bind(lib, "is_GetCameraList", [POINTER(UC480_CAMERA_LIST)], c_int)
 GetCameraInfo = bind(lib, "is_GetCameraInfo", [c_int, POINTER(CAMINFO)], c_int)
 
 InitCamera = bind(lib, "is_InitCamera", [POINTER(c_int)], c_int)
@@ -54,6 +63,8 @@ FreeMemory = bind(lib, "is_FreeImageMem", [c_int, POINTER(c_ubyte * 1310720), c_
 AllocateMemory = bind(lib, "is_SetAllocatedImageMem", [c_int, c_int, c_int, c_int, c_ubyte * 1310720, POINTER(c_int)], c_int)
 SetImageMemory = bind(lib, "is_SetImageMem", [c_int, c_ubyte * 1310720, c_int], c_int)
 
+SetTrigger = bind(lib, "is_SetExternalTrigger", [c_int, c_int], c_int)
+FreezeVideo = bind(lib, "is_FreezeVideo", [c_int, c_int], c_int)
 StartCapture = bind(lib, "is_CaptureVideo", [c_int, c_int], c_int)
 StopCapture = bind(lib, "is_StopLiveVideo", [c_int, c_int], c_int)
 
